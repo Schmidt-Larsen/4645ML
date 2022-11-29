@@ -1,9 +1,9 @@
-%--------------------
 % Packages
 % -------------------
 \documentclass[11pt,a4paper]{article}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{amssymb}
 %\usepackage{gentium}
 
 
@@ -22,11 +22,15 @@
 
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
 
+\usepackage{natbib}
+\bibliographystyle{unsrt} 
+\bibliography{Biblio} 
+
 
 %-----------------------
 % Begin document
 %-----------------------
-\begin{document} 
+\begin{document}  
 
 \title{Lecture Notes: 4645: Machine Learning Methods in Empirical Economics}
 \author{Sebastian Schmidt-Larsen}
@@ -38,16 +42,171 @@ This is mainly for my own benefit. Any errors are my own. Contact me here on Git
 
 This is based on the lecture slides given for 4645: Machine Learning Methods in Empirical Economic Fall 2023, at Aarhus University BSS.
 I have tried my best to follow the same notation as given at the lectures. Note that these deviation quite a bit from the curriculum.
+It should also be noted that I have not included comments from lectures, which have note included derivations. Those have been written in OneNote.
+Also it should be noted that I don't include equations that are in slides, unless they are needed to provide further information in these notes.
+
+
 
 \subsubsection*{Prerequisites}
 
-\section{Prediction}
+\part{Prediction}
 
 Literature Chapters: ISL 2, 5; ESL 2, 7
 
-\subsection{Introduction}
+\section{Introduction}
 
 Goal of machine learning is to automatically discover patterns from the data.
+the learning part is given af the learning is happening automatically by the computer.
+We  typically use these discovered pattens for prediction.
+\newline
+For prediction we focus on supervised learning, where we have information on the outcome variable. These methods are designed  for labelled data (we have observations on the outcome variable). 
+\newline 
+Important distinction here. We refer to continuous variable prediction as prediction and discrete variable prediction as classification. Exception is causal machine learning where ML is used to discover causal relationships.
+
+\subsubsection{Big Data}
+
+Machine learning is well suited to handle large datasets. Big data tern not precisely defined but often a relative term. We don't care about the definition, but just note that our methods can handle big data.
+\newline
+High dimensional problems is where we have many parameters to estimate relative to number of observations. High dimensional problems are normally also characterized by an unknown form. Digitalization has also made new types of data available.
+
+\subsection{What is Statistical learning}
+
+General formula. We observe a quantitative response \(Y\) and \(p\)
+different predictors, \(X_{1}, X_{2}, \ldots, X_{p}\). We assume that there is some
+relationship between \(Y\) and \(X=\left(X_{1}, X_{2}, \ldots, X_{p}\right)\), which can be written
+in the very general form:
+
+\begin{equation}
+    Y=f(X)+\epsilon
+\end{equation}
+
+Where $f$ is some fixed but unknown function of $X_{1}, \ldots, X_{p}$, and $\epsilon$ is a random error term which is is independent of $X$ and has mean zero. Here we can say that $f$ represent the systematic information that $X$ provides $Y$ \cite{james2013introduction}.
+
+\section{Prediction}
+
+Define outcome (target, response) variable as $Y$ and predictors as $\mathbf{X}\in \mathbb{R}^p$.
+Assume that $Y$ and $\mathbf{X}$ are random data.
+Data is a $(p+1)$-dimensional random vector $(Y,\mathbf{X}')'$
+
+\section{Prediction Versus Inference}
+
+Applied econometrics usually has the goal  of statistical inference and in that context $Y$ wil be the dependent variable and $\mathbf{X}$ the regressors. 
+We sometimes want establish a causal relationship between $Y$ and $\mathbf{X}$. 
+In machine learning we are focussed on prediction an we do not care if the relationships are statistically significant or not.
+Our goal in predictive modelling is whether the model predict new observations well. 
+\newline
+Consider a simple linear regression model
+\begin{equation}
+    Y=\beta_{0}+\beta_{1} X+\varepsilon
+ \end{equation}
+If we want to predict $Y$ given $X$ then our end-goal is $Y$.
+If we instead want to consider the causal effect of $X$ on $Y$ our end-goal is $\beta_1$. Not that we don't observe $\beta_1$ but we observe $Y$, so we can take advantage of this fact in predictive modelling.
+Note: that we also normally do prediction in time series econometrics.
+
+\subsection{Underlying DGP}
+
+\subsection{Modelling the Process}
+
+\subsection{The prediction Error}
+
+\subsection{Loss Function}
+
+\subsection{Heterogeneous Response}
+
+\subsection{Expected Loss}
+
+\subsection{Optimal Prediction Function}
+
+\subsubsection{OPF for $L_2$ Loss}
+
+\subsubsection{OPF for $L_1$ Loss}
+
+\subsection{Classification}
+
+\subsection{A loss function for Classification}
+
+\subsection{Optimal Prediction Function for 0-1 Loss}
+
+\subsection{The Bayes Classifier}
+
+\subsection{The Bayes Classification}
+
+\subsection{Asymmetric Loss in Bayes Classification}
+
+\subsection{Optimal Prediction Under Asymmetric Loss}
+
+\section{Estimation the Prediction Function}
+
+\subsection{The optimal Prediction Functions: Problem}
+
+\subsection{Training Data}
+
+\subsection{A Note on Distributional Assumptions}
+
+\subsection{Estimation the Prediction Function}
+
+\subsection{The Quality of the Estimated Prediction Function}
+
+\section{Model Assessment}
+
+
+\subsection{The Test loss}
+
+\subsection{The Expected Test Loss}
+
+\subsection{Test Loss and Expected Test Loss}
+
+\section{The Bias-Variance Tradeoff}
+
+\subsection{Regression Models}
+
+\subsubsection{Regression Models in Economics}
+
+\subsection{Regression Models in Economics}
+
+\subsection{Test Mean Squared Error}
+
+\subsection{Test Mean Squared Error}
+
+\subsection{Expected Test Mean Squared Error}
+
+\subsection{The Bias and Variance of an Estimator}
+
+\subsection{The Bias-Variance Tradeoff}
+
+\subsection{The Bias}
+
+\subsection{The Variance}
+
+\subsection{Bias Versus Variance}
+
+\subsection{Bias-Variance Tradeoff: Example}
+
+\section{Model Assessment in Practice}
+
+\subsection{Model Assessment}
+
+\subsection{Test Loss and Expected Test Loss}
+
+\subsection{The Training Loss}
+
+\subsection{The Training Loss: Properties}
+
+\subsection{Training Loss for Model Selection}
+
+\subsection{Model Fit}
+
+\subsection{}
+
+
+
+
+
+
+
+\begin{equation}
+    \mathbb{E}  [\mathbb{E} [L(Y,f(X))\vert X=x]] = \mathbb{E}  [L(Y,f(X))]
+\end{equation}
 
 \section{High-dimensional linear regression}
 Literature Chapters: ISL 6; ESL 3, 7
@@ -80,7 +239,6 @@ Selected articles.
 \section{Unsupervised learning}
 
 Literature Chapters: ISL 6.3,6.5.3, 12; ESL 3.5-3.6, 14.1-14.3, 14.5.
-
 
 
 

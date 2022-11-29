@@ -1,0 +1,19 @@
+
+############################################################################
+# Part e):                                                                 #
+############################################################################ 
+
+# Left as an exercise.
+
+
+# This is my try 
+
+# New DGP
+p_t        <- 7
+beta <- runif(p_t + 1, 0, 5)
+# Draw the predictors (same as before):
+X <- matrix(rep(rnorm(n), p), n, p) ^ matrix(rep((1:p), n), n, p, byrow = T)
+# The outcome (only the 7'th predictor (_7):
+Y <- beta[1] + X[ ,p_t] * beta[(p_t+1)] + eps
+
+# From here the code can be executed as before
