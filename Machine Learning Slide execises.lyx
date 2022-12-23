@@ -1,0 +1,3517 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Machine learning extended notes:
+\end_layout
+
+\begin_layout Part*
+Prediction
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 25 Exercise: What is the relationship between the expected loss and
+ the expected loss given 
+\begin_inset Formula $x$
+\end_inset
+
+ (Use LIE)?
+\end_layout
+
+\begin_layout Standard
+The expected loss given 
+\begin_inset Formula $x$
+\end_inset
+
+ is defined as: 
+\begin_inset Formula 
+\[
+\mathbb{E}\left[L\left(Y_{0},f(x)\right)\right]=\mathbb{E}[L(Y,f(X))\mid X=x]
+\]
+
+\end_inset
+
+The Law of Iterated Expectations (LIE) states that for two random variables
+ 
+\begin_inset Formula $Y$
+\end_inset
+
+ and 
+\begin_inset Formula $Z$
+\end_inset
+
+, the following is true: 
+\begin_inset Formula 
+\[
+\mathbb{E}[\mathbb{E}[Y\mid Z]]=\mathbb{E}[Y]
+\]
+
+\end_inset
+
+Applying this to our case, we get that: 
+\begin_inset Formula 
+\[
+\mathbb{E}[\mathbb{E}[L(Y,f(X))\mid X=x]]=\mathbb{E}[L(Y,f(X))]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 58:
+\end_layout
+
+\begin_layout Standard
+Prove this relationship:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\mathbb{E}\left[(f(\boldsymbol{x})-\hat{f}(\boldsymbol{x}))^{2}\right]=(\mathbb{E}[\hat{f}(\boldsymbol{x})]-f(\boldsymbol{x}))^{2}+\mathbb{E}\left[(\hat{f}(\boldsymbol{x})-\mathbb{E}[\hat{f}(\boldsymbol{x})])^{2}\right]}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Lets try:
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}\left[(f(\boldsymbol{x})-\hat{f}(\boldsymbol{x}))^{2}\right] & =\mathbb{E}\left[(f(\boldsymbol{x})-\hat{f}(\boldsymbol{x}))^{2}\right]\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Expand the quadratic term
+\begin_inset Formula 
+\[
+(f(\boldsymbol{x})-\hat{f}(\boldsymbol{x}))^{2}=f(\boldsymbol{x})^{2}-2\cdot f(\boldsymbol{x})\cdot\hat{f}(\boldsymbol{x})+\hat{f}(\boldsymbol{x})^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}\left[(f(\boldsymbol{x})-\hat{f}(\boldsymbol{x}))^{2}\right] & =\mathbb{E}\left[f(\boldsymbol{x})^{2}-2\cdot f(\boldsymbol{x})\cdot\hat{f}(\boldsymbol{x})+\hat{f}(\boldsymbol{x})^{2}\right]\\
+ & =\mathbb{E}\left[f(\boldsymbol{x})^{2}\right]-\mathbb{E}\left[2\cdot f(\boldsymbol{x})\cdot\hat{f}(\boldsymbol{x})\right]+\mathbb{E}\left[\hat{f}(\boldsymbol{x})^{2}\right]\\
+ & =f(\boldsymbol{x})^{2}-\mathbb{E}\left[2\cdot f(\boldsymbol{x})\cdot\hat{f}(\boldsymbol{x})\right]+\mathbb{E}\left[\hat{f}(\boldsymbol{x})^{2}\right]\\
+ & =f(\boldsymbol{x})^{2}-2\cdot f(\boldsymbol{x})\cdot\mathbb{E}\left[\hat{f}(\boldsymbol{x})\right]+\mathbb{E}\left[\hat{f}(\boldsymbol{x})^{2}\right]\\
+\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+(\mathbb{E}[\hat{f}(\boldsymbol{x})]-f(\boldsymbol{x}))^{2}=\mathbb{E}[\hat{f}(\boldsymbol{x})]^{2}-2\cdot f(\boldsymbol{x})\cdot\mathbb{E}\left[\hat{f}(\boldsymbol{x})\right]+f(\boldsymbol{x})^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Okay havde totalt misforstået det.
+ Her er Morten's løsning: (tjek billeder i billedmappen i machine learning
+ mappen
+\begin_inset Newline newline
+\end_inset
+
+Nedenstående udledning er taget fra [https://towardsdatascience.com/the-bias-vari
+ance-tradeoff-8818f41e39e9]: The first term of 
+\begin_inset Formula $ETL(x)=\mathbb{E}\left[(f(x)-f(x))^{2}\right]+Var(\varepsilon)$
+\end_inset
+
+, can be rewritten into:
+\end_layout
+
+\begin_layout Standard
+In step (4), we subtract and add by 
+\begin_inset Formula $\mathbb{E}[f(x)]$
+\end_inset
+
+.
+ In step (5), we expand the terms inside the square.
+ Bias, 
+\begin_inset Formula $\mathbb{E}[f(x)]-f(x)$
+\end_inset
+
+ is just a constant since we subtract 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ (a constant) from 
+\begin_inset Formula $\mathbb{E}[f(x)]$
+\end_inset
+
+, which is also a constant.
+ Therefore, applying expectation to squared bias, 
+\begin_inset Formula $(\mathbb{E}[f(x)]-f(x))^{2}$
+\end_inset
+
+ does not have any effect.
+ In other words, 
+\begin_inset Formula $\mathbb{E}\left[(\mathbb{E}[f(x)]-f(x))^{2}\right]=(\mathbb{E}[f(x)]-f(x))^{2}$
+\end_inset
+
+.
+ In step (6), we are able to pull 
+\begin_inset Formula $f(x)-\mathbb{E}[f(x)]$
+\end_inset
+
+ out of the expectation, because as we mentioned it is just a constant.
+ Lastly, (7) holds because of linearity of expecation.
+ Therefore, we see in (8) that 
+\begin_inset Formula $\mathbb{E}\left[(f(x)-f(x))^{2}\right]$
+\end_inset
+
+ is the sum of squared bias and variance.
+\end_layout
+
+\begin_layout Standard
+When we combine (3) and (8), we end up with: 
+\begin_inset Formula 
+\[
+ETL(x)=\mathbb{E}\left[(f(x)-f(x))^{2}\right]+\operatorname{Var}(\varepsilon)=\operatorname{bias}[f(x)]^{2}+\operatorname{var}(f(x))+\operatorname{var}(\varepsilon)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 67:
+\end_layout
+
+\begin_layout Standard
+Verify this (complex model):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The bias of this model is 
+\begin_inset Formula 
+\[
+\operatorname{Bias}\left(\hat{f}_{C}(\boldsymbol{x})\right)=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+The variance is 
+\begin_inset Formula 
+\[
+\operatorname{Var}\left(\hat{f}_{C}(\boldsymbol{x})\right)=\sigma^{2}\boldsymbol{x}^{\prime}\mathbb{E}\left[\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\right]\boldsymbol{x}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Model is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{f_{C}(\boldsymbol{x})=\boldsymbol{x}^{\prime}\boldsymbol{\beta}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+OLS estimate is:
+\begin_inset Formula 
+\[
+\ensuremath{\hat{f}_{C}(\boldsymbol{x})=\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}=\boldsymbol{x}^{\prime}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\boldsymbol{Y}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Bias
+\series default
+ is defined as (ref slide 58):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\mathbb{E}[\hat{f}(x)]-f(x)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}]-\boldsymbol{x}^{\prime}\boldsymbol{\beta}\Rightarrow\boldsymbol{x}^{\prime}\mathbb{E}[\hat{\boldsymbol{\beta}}]-\boldsymbol{x}^{\prime}\boldsymbol{\beta}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We know from OLS that the estimate of 
+\begin_inset Formula $\beta$
+\end_inset
+
+ is unbiased, therefore the statement holds true (REFERENCE NEEDED)
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Variance
+\series default
+ is defined as (ref slide 58):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\mathbb{E}\left[(\hat{f}(\boldsymbol{x})-\mathbb{E}[\hat{f}(\boldsymbol{x})])^{2}\right]}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}\left[(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}-\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}])^{2}\right] & =\mathbb{E}\left[(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}-\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}])^{2}\right]\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+DRAFT:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}\left[(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}-\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}])^{2}\right] & =\mathbb{E}\left[\left(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right)^{2}-2\left(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right)\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}]+\left(\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}]\right)^{2}\right]\\
+ & =\mathbb{E}\left[\left(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right)^{2}-2\left(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right)\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}]+\left(\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}]\right)^{2}\right]\\
+ & =\mathbb{E}\left[\left(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right)^{2}\right]-\mathbb{E}\left[2\left(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right)\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}]\right]+\mathbb{E}\left[\left(\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}]\right)^{2}\right]\\
+ & =\mathbb{E}\left[\left(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right)^{2}\right]-2\mathbb{E}\left[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right]+\mathbb{E}\left[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right]^{2}\\
+ & =\mathbb{E}\left[\left(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right)^{2}\right]-\mathbb{E}\left[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right]^{2}\\
+ & =\mathbb{E}\left[\boldsymbol{x}^{\prime2}\hat{\boldsymbol{\beta}}^{2}\right]-\mathbb{E}\left[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right]^{2}\\
+ & =\boldsymbol{x}^{\prime2}\mathbb{E}\left[\hat{\boldsymbol{\beta}}^{2}\right]-\mathbb{E}\left[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right]^{2}\\
+\\
+ & =\sigma^{2}\boldsymbol{x}^{\prime}\mathbb{E}\left[\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\right]\boldsymbol{x}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}\left[(\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}-\mathbb{E}[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}])^{2}\right] & =\mathbb{E}\left[(\boldsymbol{x}^{\prime}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\boldsymbol{Y}-\mathbb{E}[\boldsymbol{x}^{\prime}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\boldsymbol{Y}])^{2}\right]\\
+ & =\mathbb{E}\left[(\boldsymbol{x}^{\prime}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\boldsymbol{Y}-\mathbb{E}[\boldsymbol{x}^{\prime}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\boldsymbol{Y}])^{2}\right]
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+DRAFT:
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 69:
+\end_layout
+
+\begin_layout Standard
+Verify this (simple model):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The bias of this model is 
+\begin_inset Formula 
+\[
+\operatorname{Bias}\left(\hat{f}_{S}(\boldsymbol{x})\right)=\boldsymbol{\beta}^{\prime}(\boldsymbol{x}-\mathbb{E}[\boldsymbol{X}])
+\]
+
+\end_inset
+
+The variance is 
+\begin_inset Formula 
+\[
+\operatorname{Var}\left(\hat{f}_{S}(\boldsymbol{x})\right)=\frac{1}{n}\left(\boldsymbol{\beta}^{\prime}\operatorname{Cov}(\boldsymbol{X})\boldsymbol{\beta}+\sigma^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Simple model is given by:
+\begin_inset Formula 
+\[
+\ensuremath{f_{S}(\boldsymbol{x})=\alpha}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+OLS estimate is given by:
+\begin_inset Formula 
+\[
+\ensuremath{\hat{f}_{S}(\boldsymbol{x})=\hat{\alpha}=\frac{1}{n}\sum_{i=1}^{n}Y_{i}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Bias
+\series default
+ is defined as (ref slide 58):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\mathbb{E}[\hat{f}(x)]-f(x)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\ensuremath{\mathbb{E}[\hat{f}_{S}(x)]-f(x)} & =\ensuremath{\mathbb{E}[\hat{f}(x)]-\ensuremath{x^{\prime}\beta}}\\
+ & =\mathbb{E}[\hat{\alpha}]-\ensuremath{x^{\prime}\beta}\\
+ & =\mathbb{E}[\ensuremath{\bar{y}-(\widehat{\beta}\bar{x})}]-\ensuremath{x^{\prime}\beta}\\
+ & =\mathbb{E}[\ensuremath{\bar{y}-(\widehat{\beta}\bar{x})}]-\ensuremath{x^{\prime}\beta}\\
+ & =\mathbb{E}[\ensuremath{\ensuremath{\widehat{\beta}\bar{x}}+\hat{\alpha}-\widehat{\beta}\bar{x}}]-\ensuremath{x^{\prime}\beta}\\
+\\
+ & =\boldsymbol{\beta}^{\prime}(\boldsymbol{x}-\mathbb{E}[\boldsymbol{X}])
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+DRAFT:
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}[\hat{f}_{S}(x)]-f(x) & =\ensuremath{\mathbb{E}[\hat{f_{S}}(x)]-\ensuremath{x^{\prime}\beta}}\\
+ & =\mathbb{E}[\hat{\alpha}]-\ensuremath{x^{\prime}\beta}\\
+ & =\mathbb{E}[\hat{\alpha}]-\ensuremath{x^{\prime}\beta}\\
+\\
+ & =\boldsymbol{\beta}^{\prime}(\boldsymbol{x}-\mathbb{E}[\boldsymbol{X}])
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 105:
+\end_layout
+
+\begin_layout Standard
+Calculate the estimates for the other two folds, 
+\begin_inset Formula $CV_{(2)}$
+\end_inset
+
+ and 
+\begin_inset Formula $CV_{(3)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Data:
+\begin_inset Formula 
+\[
+\begin{tabular}{ccc}
+ \ensuremath{\mathrm{i}}  &  \ensuremath{y_{i}}  &  fold \\
+\hline  1  &  8  &  2 \\
+ 2  &  4  &  1 \\
+ 3  &  9  &  1 \\
+ 4  &  7  &  3 \\
+ 5  &  10  &  2 \\
+ 6  &  5  &  3 \\
+\hline  
+\end{tabular}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Definition:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\begin{aligned}\mathcal{N}_{2} & =\{1,5\},\quad\mathcal{N}_{2}^{c}=\{2,3,4,6\}\\
+\hat{f}_{2} & =\frac{1}{4}\sum_{i\in\mathcal{N}_{2}^{c}}y_{i}=\frac{1}{4}(4+9+7+5)=6.25
+\end{aligned}
+}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\begin{aligned}\mathcal{N}_{3} & =\{4,6\},\quad\mathcal{N}_{1}^{c}=\{1,2,3,5\}\\
+\hat{f}_{1} & =\frac{1}{4}\sum_{i\in\mathcal{N}_{3}^{c}}y_{i}=\frac{1}{4}(8+4+9+10)=7.75
+\end{aligned}
+}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Formulas:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{CV_{(2)}=\frac{1}{2}\sum_{i\in\mathcal{N}_{2}}\left(y_{i}-\hat{f}_{2}\right)^{2}=\frac{1}{2}\left(\left(8-6.25\right)^{2}+\left(10-6.25\right)^{2}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+CV_{(3)}=\frac{1}{2}\sum_{i\in\mathcal{N}_{3}}\left(y_{i}-\hat{f}_{2}\right)^{2}=\frac{1}{2}\left(\left(7-7.75\right)^{2}+\left(5-7.75\right)^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+High-Dimensional Linear Regression
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 6:
+\end_layout
+
+\begin_layout Standard
+Derive the OLS Estimator
+\end_layout
+
+\begin_layout Standard
+Answer:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\hat{\boldsymbol{\beta}}=\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\boldsymbol{Y}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We start from what we have:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+SSR=S(\mathbf{b})=\ensuremath{\sum_{i=1}^{n}\hat{\varepsilon}_{i}^{2}=\hat{\varepsilon}^{\prime}\hat{\varepsilon}=(\mathbf{Y}-\mathbf{X}\hat{\boldsymbol{b}})^{\prime}(\mathbf{Y}-\mathbf{X}\hat{\boldsymbol{b}})}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We want to minimize 
+\begin_inset Formula $\hat{\boldsymbol{b}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Write out SSR terms (remember your linear algebra rules)
+\begin_inset Formula 
+\begin{align*}
+S(\mathbf{b}) & =(\mathbf{Y}-\mathbf{X}\hat{\boldsymbol{b}})^{\prime}(\mathbf{Y}-\mathbf{X}\hat{\boldsymbol{b}})\\
+ & =\ensuremath{\mathbf{Y}^{\prime}\boldsymbol{Y}-\mathbf{Y}^{\prime}\mathbf{X}\boldsymbol{b}-\boldsymbol{b}^{\prime}\mathbf{X}^{\prime}\boldsymbol{Y}+\boldsymbol{b}^{\prime}\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{b}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Minimize by differentiating (remember diff in matrix form) 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+S(\mathbf{b})=\frac{\partial S(\mathbf{b)}}{\partial\mathbf{b}}=\ensuremath{-2\mathbf{X}^{\prime}\boldsymbol{Y}+2\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{b}=\mathbf{0}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Isolate 
+\begin_inset Formula $\mathbf{b}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+-2\mathbf{X}^{\prime}\boldsymbol{Y}+2\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{b} & =\mathbf{0}\\
+2\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{b} & =2\mathbf{X}^{\prime}\boldsymbol{Y}\\
+\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{b} & =\mathbf{X}^{\prime}\boldsymbol{Y}\\
+\boldsymbol{b} & =\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbf{Y}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is your OLS estimator.
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 9:
+\end_layout
+
+\begin_layout Standard
+Prove these statements:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+- Under A1-A2, OLS is unbiased.
+\end_layout
+
+\begin_layout Plain Layout
+- In addition, under A1-A4 OLS is BLUE.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Let's first prove unbiasedness
+\end_layout
+
+\begin_layout Standard
+(A1) 
+\begin_inset Formula $\operatorname{rank}(\mathbf{X})=p+1$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $(\mathrm{~A}2)\mathbb{E}[\varepsilon\mid\mathbf{X}]=\mathbf{0}_{p+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+First let's define bias:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+Bias\left(\hat{\beta}\right) & =\hat{\beta}-\beta\\
+ & =
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also unbiasedness is defined as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E\left[\hat{\beta}\right]=\beta
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We cannot calculate OLS if A1 is not satisfied:
+\end_layout
+
+\begin_layout Standard
+Otherwise 
+\begin_inset Formula ${\displaystyle \mathbf{X}'\mathbf{X}}$
+\end_inset
+
+ is not invertible and the OLS estimator cannot be computed.
+\end_layout
+
+\begin_layout Standard
+A2 is the strict exogeneity assumption.
+\end_layout
+
+\begin_layout Standard
+Er ikke helt tilfred med det proof der er på wiki: https://en.wikipedia.org/wiki/G
+auss–Markov_theorem
+\end_layout
+
+\begin_layout Standard
+Fra ECO 1
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\boldsymbol{\beta}}=\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}(\mathbf{X}\boldsymbol{\beta}+\varepsilon)=\boldsymbol{\beta}+\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\varepsilon
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbb{E}[\hat{\boldsymbol{\beta}}\mid\mathbf{X}]=\boldsymbol{\beta}+\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbb{E}[\varepsilon\mid\mathbf{X}]=\boldsymbol{\beta}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can also use unconditional expectation Using LIE:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}[\hat{\boldsymbol{\beta}}] & =\mathbb{E}\left(\mathbb{E}[\hat{\boldsymbol{\beta}}\mid\mathbf{X}]\right)\\
+ & =\mathbb{E}\left(\boldsymbol{\beta}+\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbb{E}[\varepsilon\mid\mathbf{X}]]\right)\\
+ & =\mathbb{E}\left(\boldsymbol{\beta}\right)\\
+ & =\boldsymbol{\beta}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now lets prove BLUE:
+\begin_inset Newline newline
+\end_inset
+
+These other questions are from the new slide pack:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Show the OLS is unbiased and derive the variance.
+ What does BLUE mean? Also show that OLS is normally distributed.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Unbiasedness is proving.
+\end_layout
+
+\begin_layout Standard
+Deriving the variance:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+Var(\hat{\beta}) & =Var(\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbf{Y}})\\
+ & =Var(\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}(\mathbf{X}\boldsymbol{\beta}+\varepsilon)})\\
+ & =Var(\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{\beta}})+Var(\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\varepsilon})\\
+ & =Var(\ensuremath{\boldsymbol{\beta}})+Var(\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\varepsilon})\\
+ & =Var(\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\varepsilon})\\
+ & =\sigma^{2}Var(\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}})\\
+ & =\sigma^{2}Var(\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}})\\
+\\
+ & =\ensuremath{\sigma^{2}\left(X^{\prime}X\right)^{-1}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hmmmm fra ECO 1
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{aligned}\operatorname{Var}[\hat{\boldsymbol{\beta}}\mid\mathbf{X}] & =\mathbb{E}\left[(\hat{\boldsymbol{\beta}}-\boldsymbol{\beta})(\hat{\boldsymbol{\beta}}-\boldsymbol{\beta})^{\prime}\mid\mathbf{X}\right]\\
+ & =\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbb{E}\left[\varepsilon\varepsilon^{\prime}\mid\mathbf{X}\right]\mathbf{X}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\\
+ & =\sigma^{2}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}
+\end{aligned}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Which is a covariance matrix.
+\end_layout
+
+\begin_layout Standard
+Lad os skrive den ud:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{aligned}\operatorname{Var}[\hat{\boldsymbol{\beta}}\mid\mathbf{X}] & =\mathbb{E}\left[(\hat{\boldsymbol{\beta}}-\boldsymbol{\beta})(\hat{\boldsymbol{\beta}}-\boldsymbol{\beta})^{\prime}\mid\mathbf{X}\right]\\
+ & =\mathbb{E}\left[(\hat{\boldsymbol{\beta}}-\boldsymbol{\beta})(\hat{\boldsymbol{\beta}}-\boldsymbol{\beta})^{\prime}\mid\mathbf{X}\right]\\
+ & =\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbb{E}\left[\varepsilon\varepsilon^{\prime}\mid\mathbf{X}\right]\mathbf{X}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\\
+ & =\sigma^{2}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}
+\end{aligned}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As 
+\begin_inset Formula 
+\begin{align*}
+(\hat{\boldsymbol{\beta}}-\boldsymbol{\beta})(\hat{\boldsymbol{\beta}}-\boldsymbol{\beta})^{\prime} & =\ensuremath{\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbf{Y}-\beta\right)}\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbf{Y}-\beta\right){}^{\prime}\\
+ & =\ensuremath{\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\left(X\beta-\epsilon\right)-\beta\right)}\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbf{\left(X\beta-\epsilon\right)}-\beta\right){}^{\prime}\\
+ & =\ensuremath{\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\left(X\beta-\epsilon\right)-\beta\right)}\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbf{\left(X\beta-\epsilon\right)}-\beta\right){}^{\prime}\\
+ & =\ensuremath{\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}X\beta-\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\epsilon-\beta\right)}\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}X\beta-\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\epsilon-\beta\right){}^{\prime}\\
+ & =\ensuremath{\left(\beta\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}X-1\right)-\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\epsilon\right)}\left(\beta\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}X-1\right)-\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\epsilon\right){}^{\prime}\\
+ & =\left(\beta\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}X-1\right)\right)\left(\beta\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}X-1\right)\right){}^{\prime}-2\beta\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}X-1\right)\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\epsilon+\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\epsilon\right)\left(\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\epsilon\right)\text{´}\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+STEMME IKKE
+\end_layout
+
+\begin_layout Standard
+For the distribution, the answer is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\boldsymbol{\beta}}\mid\mathbf{X}\sim\mathcal{N}\left(\boldsymbol{\beta},\sigma^{2}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 11:
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 56:
+\end_layout
+
+\begin_layout Standard
+Derive the ridge estimator:
+\end_layout
+
+\begin_layout Standard
+We have:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{(\boldsymbol{Y}-\mathbf{X}\boldsymbol{b})^{\prime}(\boldsymbol{Y}-\mathbf{X}\boldsymbol{b})+\lambda\boldsymbol{b}^{\prime}\boldsymbol{b}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We want to minimize this wrt.
+ 
+\series bold
+b
+\series default
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+S(\boldsymbol{b})=\ensuremath{(\boldsymbol{Y}-\mathbf{X}\boldsymbol{b})^{\prime}(\boldsymbol{Y}-\mathbf{X}\boldsymbol{b})+\lambda\boldsymbol{b}^{\prime}\boldsymbol{b}}=\ensuremath{\mathbf{Y}^{\prime}\boldsymbol{Y}-\mathbf{Y}^{\prime}\mathbf{X}\boldsymbol{b}-\boldsymbol{b}^{\prime}\mathbf{X}^{\prime}\boldsymbol{Y}+\boldsymbol{b}^{\prime}\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{b}+\lambda\boldsymbol{b}^{\prime}\boldsymbol{b}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\ensuremath{\frac{\partial S(\boldsymbol{b})}{\partial\boldsymbol{b}}} & =-2\mathbf{X}^{\prime}\boldsymbol{Y}+2\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{b}+2\lambda\mathbf{I}_{p\times p}=0\\
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+2\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{b}+2\lambda\mathbf{I}_{p\times p}\boldsymbol{b} & =2\mathbf{X}^{\prime}\boldsymbol{Y}\\
+\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right) & \boldsymbol{b}=\mathbf{X}^{\prime}\boldsymbol{Y}\\
+\Downarrow
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\hat{\boldsymbol{\beta}}^{R}=\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\mathbf{Y}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 65:
+\end_layout
+
+\begin_layout Standard
+Derive the (condistional) expectation of the ridge estimator:
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $\ensuremath{E(X\mid Y)=f(Y)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+\begin_inset Formula 
+\begin{align*}
+\ensuremath{\mathbb{E}\left[\hat{\boldsymbol{\beta}}^{R}\mid\mathbf{X}\right]} & =\boldsymbol{\beta}+\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\mathbb{E}[\left(\mathbf{X}\boldsymbol{\beta}-\mathbf{Y}\right)\mid\mathbf{X}]\\
+ & =\boldsymbol{\beta}+\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\mathbb{E}[\epsilon\mid\mathbf{X}]\\
+ & =\boldsymbol{\beta}\\
+ & =\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\left(\mathbf{X}\boldsymbol{\beta}-\epsilon\right)\\
+ & =\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{\beta}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbb{E}\left[\hat{\boldsymbol{\beta}}^{R}\mid\mathbf{X}\right]=\mathbb{E}\left[\hat{\boldsymbol{\beta}}^{R}\mid\mathbf{X}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+TROR IKKE AT DET ER RIGTIGT!
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 66:
+\end_layout
+
+\begin_layout Standard
+Derive the (conditional) variance of the ridge estimator.
+ The steps are the same as for OLS.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\begin{aligned}\operatorname{Var}\left(\hat{\boldsymbol{\beta}}^{R}\mid\mathbf{X}\right) & =\mathbb{E}\left[\left(\hat{\boldsymbol{\beta}}^{R}-\mathbb{E}\left[\hat{\boldsymbol{\beta}}^{R}\mid\mathbf{X}\right]\right)\left(\hat{\boldsymbol{\beta}}^{R}-\mathbb{E}\left[\hat{\boldsymbol{\beta}}^{R}\mid\mathbf{X}\right]\right)^{\prime}\mid\mathbf{X}\right]\\
+ & =\\
+ & =\mathbb{E}\left[\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\varepsilon\varepsilon^{\prime}\mathbf{X}\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mid\mathbf{X}\right]\\
+ & =\sigma^{2}\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\mathbf{X}\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}
+\end{aligned}
+}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can write:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\mathbf{Y}-\ensuremath{\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{\beta}}=\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\left(\boldsymbol{\beta}+\mathbf{Y}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+DRAFT:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{aligned}\operatorname{Var}[\hat{\boldsymbol{\beta}}\mid\mathbf{X}] & =\mathbb{E}\left[(\hat{\boldsymbol{\beta}}-\boldsymbol{\beta})(\hat{\boldsymbol{\beta}}-\boldsymbol{\beta})^{\prime}\mid\mathbf{X}\right]\\
+ & =\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\mathbf{X}^{\prime}\mathbb{E}\left[\varepsilon\varepsilon^{\prime}\mid\mathbf{X}\right]\mathbf{X}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\\
+ & =\sigma^{2}\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}
+\end{aligned}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 68:
+\end_layout
+
+\begin_layout Standard
+Verify the concistency of ridge:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{aligned}\operatorname{plim}\left(\hat{\beta}^{R}\right) & =\operatorname{plim}\left(\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\boldsymbol{Y}\right)\\
+ & =\operatorname{plim}\left(\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\boldsymbol{\left(X\beta-\epsilon\right)}\right)\\
+ & =\operatorname{plim}\left(\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\mathbf{X}\boldsymbol{\beta}\right)=\boldsymbol{\beta}
+\end{aligned}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Not sure how to verify.
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 70:
+\end_layout
+
+\begin_layout Standard
+Verify these calculations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{aligned}\operatorname{Bias}\left(\hat{f}^{OLS}(\boldsymbol{x})\right) & =0\\
+\operatorname{Var}\left(\hat{f}^{OLS}(\boldsymbol{x})\right) & =\sigma^{2}\\
+ETL^{OLS}(\boldsymbol{x}) & =2\sigma^{2}
+\end{aligned}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Is this not proved in last slide pack?
+\end_layout
+
+\begin_layout Standard
+Lets take the first one:
+\begin_inset Formula 
+\[
+\operatorname{Bias}\left(\hat{f}^{OLS}(\boldsymbol{x})\right)=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 71:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Verify the calculations.
+ Hint: Even if we have the unconditional expectation and variance of 
+\begin_inset Formula $\hat{\boldsymbol{\beta}}^{R}$
+\end_inset
+
+ here, we can use the expressions derived earlier due to orthonormality
+ and independence of 
+\begin_inset Formula $\mathbf{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The calculations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\begin{aligned}\operatorname{Bias}\left(\hat{f}^{R}(\boldsymbol{x})\right) & =\mathbb{E}\left[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}^{R}\right]-\boldsymbol{x}^{\prime}\boldsymbol{\beta}=\left(\frac{-\lambda}{1+\lambda}\right)\boldsymbol{x}^{\prime}\boldsymbol{\beta}\\
+\operatorname{Var}\left(\hat{f}^{R}(\boldsymbol{x})\right) & =\sigma^{2}\left(\frac{1}{1+\lambda}\right)^{2}\\
+ETL^{R}(\boldsymbol{x}) & =\frac{\lambda^{2}}{(1+\lambda)^{2}}\left(\boldsymbol{x}^{\prime}\boldsymbol{\beta}\right)^{2}+\sigma^{2}\left(\frac{1}{1+\lambda}\right)^{2}+\sigma^{2}
+\end{aligned}
+}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Lets start with the bias:
+\begin_inset Formula 
+\begin{align*}
+\operatorname{Bias}\left(\hat{f}^{R}(\boldsymbol{x})\right) & =\mathbb{E}\left[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}^{R}\right]-\boldsymbol{x}^{\prime}\boldsymbol{\beta}\\
+ & =\mathbb{E}\left[\boldsymbol{x}^{\prime}\frac{1}{1+\lambda}\hat{\boldsymbol{\beta}}^{OLS}\right]-\boldsymbol{x}^{\prime}\boldsymbol{\beta}\\
+ & =\frac{1}{1+\lambda}\mathbb{E}\left[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right]-\boldsymbol{x}^{\prime}\boldsymbol{\beta}\\
+ & =\frac{1}{1+\lambda}\mathbb{E}\left[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right]-\frac{1+\lambda}{1+\lambda}\boldsymbol{x}^{\prime}\boldsymbol{\beta}\\
+ & =\frac{1}{1+\lambda}\mathbb{E}\left[\boldsymbol{x}^{\prime}\hat{\boldsymbol{\beta}}\right]-\frac{1+\lambda}{1+\lambda}\boldsymbol{x}^{\prime}\boldsymbol{\beta}\\
+ & =\\
+ & =\left(\frac{-\lambda}{1+\lambda}\right)\boldsymbol{x}^{\prime}\boldsymbol{\beta}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Remember that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\hat{\beta}^{R}=\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\mathbf{Y}=\frac{1}{1+\lambda}\mathbf{X}^{\prime}\mathbf{Y}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ensuremath{\hat{\beta}^{R}=\frac{1}{1+\lambda}\hat{\boldsymbol{\beta}}^{OLS}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then the Variance:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\operatorname{Var}\left(\hat{f}^{R}(\boldsymbol{x})\right) & =\sigma^{2}\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\mathbf{X}^{\prime}\mathbf{X}\left(\mathbf{X}^{\prime}\mathbf{X}+\lambda\mathbf{I}_{p\times p}\right)^{-1}\\
+ & =\sigma^{2}\frac{1}{1+\lambda}\mathbf{X}^{\prime}\mathbf{X}\frac{1}{1+\lambda}\\
+ & =\sigma^{2}\frac{1}{1+\lambda}\mathrm{I}_{p\times p}\frac{1}{1+\lambda}\\
+ & =\sigma^{2}\left(\frac{1}{1+\lambda}\right)^{2}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We use the Orthonormal predictors assumption.
+\begin_inset Newline newline
+\end_inset
+
+Lastly the expected test MSE:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+ETL^{R}(\boldsymbol{x}) & =\left(\left(\frac{-\lambda}{1+\lambda}\right)\boldsymbol{x}^{\prime}\boldsymbol{\beta}\right)^{2}-\sigma^{2}\left(\frac{1}{1+\lambda}\right)^{2}+\sigma^{2}\\
+ & =\left(\frac{-\lambda}{1+\lambda}\right)^{2}\left(\boldsymbol{x}^{\prime}\boldsymbol{\beta}\right)^{2}-\sigma^{2}\left(\frac{1}{1+\lambda}\right)^{2}+\sigma^{2}\\
+ & =\frac{\lambda^{2}}{(1+\lambda)^{2}}\left(\boldsymbol{x}^{\prime}\boldsymbol{\beta}\right)^{2}+\sigma^{2}\left(\frac{1}{1+\lambda}\right)^{2}+\sigma^{2}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Remember that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbb{E}\left[(Y-\hat{f}(\boldsymbol{X}))^{2}\mid\boldsymbol{X}=\boldsymbol{x}\right]=(\operatorname{Bias}(\hat{f}(\boldsymbol{x}))^{2}+\operatorname{Var}(\hat{f}(\boldsymbol{x}))+\operatorname{Var}(\varepsilon)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 72:
+\end_layout
+
+\begin_layout Standard
+As usual, verify the calculations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{aligned}ETL^{R}(\boldsymbol{x})-ETL^{OLS}(\boldsymbol{x}) & =\frac{\lambda^{2}}{(1+\lambda)^{2}}\left(\boldsymbol{x}^{\prime}\boldsymbol{\beta}\right)^{2}+\left(\frac{1}{(1+\lambda)^{2}}-1\right)\sigma^{2}\\
+ & =\\
+ & =\frac{\lambda^{2}}{(1+\lambda)^{2}}\left(\boldsymbol{x}^{\prime}\boldsymbol{\beta}\right)^{2}-\frac{\left(\lambda^{2}+2\lambda\right)}{(1+\lambda)^{2}}\sigma^{2}
+\end{aligned}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As
+\begin_inset Formula 
+\begin{align*}
+ETL^{R}(\boldsymbol{x})-ETL^{OLS}(\boldsymbol{x}) & =\frac{\lambda^{2}}{(1+\lambda)^{2}}\left(\boldsymbol{x}^{\prime}\boldsymbol{\beta}\right)^{2}+\sigma^{2}\left(\frac{1}{1+\lambda}\right)^{2}+\sigma^{2}-\sigma^{2}\mathbf{x}^{\prime}\mathbb{E}\left[\left(\mathbf{X}^{\prime}\mathbf{X}\right)^{-1}\right]\boldsymbol{x}-\sigma^{2}\\
+ & =\frac{\lambda^{2}}{(1+\lambda)^{2}}\left(\boldsymbol{x}^{\prime}\boldsymbol{\beta}\right)^{2}+\sigma^{2}\left(\frac{1}{1+\lambda}\right)^{2}+\sigma^{2}-\sigma^{2}\mathbf{x}^{\prime}\mathrm{I}_{p\times p}\boldsymbol{x}-\sigma^{2}\\
+\\
+ & =\frac{\lambda^{2}}{(1+\lambda)^{2}}\left(\boldsymbol{x}^{\prime}\boldsymbol{\beta}\right)^{2}+\sigma^{2}\left(\left(\frac{1}{1+\lambda}\right)^{2}+1-1-1\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\left(\frac{1}{(1+\lambda)^{2}}-1\right) & =\frac{1}{(1+\lambda)^{2}}-\frac{(1+\lambda)^{2}}{(1+\lambda)^{2}}\\
+ & =\frac{1}{(1+\lambda)^{2}}-\frac{1+2\lambda+\lambda^{2}}{(1+\lambda)^{2}}\\
+ & =\frac{\left(\lambda^{2}+2\lambda\right)}{(1+\lambda)^{2}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 84:
+\end_layout
+
+\begin_layout Standard
+Verify this: Use the definition of the OLS residuals and the property of
+ the normal equations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{aligned}\hat{\beta}^{L} & =\underset{b}{\operatorname{argmin}}\left\{ \sum_{i}\left(Y_{i}-bX_{i}\right)^{2}+\lambda|b|\right\} \\
+ & =\underset{b}{\operatorname{argmin}}\left\{ \sum_{i}\left(Y_{i}-bX_{i}-\hat{\beta}^{OLS}X_{i}+\hat{\beta}^{OLS}X_{i}\right)^{2}+\lambda|b|\right\} \\
+ & =\underset{b}{\operatorname{argmin}}\left\{ \sum_{i}\left(X_{i}\left(\hat{\beta}^{OLS}+\epsilon_{i}X_{i}^{-1}-b-\hat{\beta}^{OLS}+\hat{\beta}^{OLS}\right)\right)^{2}+\lambda|b|\right\} \\
+ & =\underset{b}{\operatorname{argmin}}\left\{ \sum_{i}\left(X_{i}\left(\hat{\beta}^{OLS}+\epsilon_{i}X_{i}^{-1}-b\right)\right)^{2}+\lambda|b|\right\} \\
+\\
+\\
+ & =\underset{b}{\operatorname{argmin}}\left\{ \sum_{i}X_{i}^{2}\left(b-\hat{\beta}^{OLS}\right)^{2}+\lambda|b|\right\} 
+\end{aligned}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+IKKE RIGTIG.
+ MANGLER NOGET
+\end_layout
+
+\begin_layout Part*
+Classification
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-1
+\end_layout
+
+\begin_layout Standard
+Remember from Stefan class, prediction that minimize 0-1 loss
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underset{k\epsilon1,...,k}{argmax}p\left(y=k\vert X\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-2
+\end_layout
+
+\begin_layout Standard
+Remember that
+\begin_inset Formula 
+\[
+x\beta=\mathbb{E}\left[Y\vert X\right]=P\left(Y=1\vert x\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{Y}=x\hat{\beta}=\hat{P}\left(Y=1\vert X\right)<0.5
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-1 
+\end_layout
+
+\begin_layout Standard
+LL function is the product of the marginal dist.
+ We can do this because of independence?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+ll\left(\beta_{0},\beta_{1}\right)=\prod_{i}p\left(Y_{i}=y_{i}\vert X_{i}=x_{i}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 3-1
+\end_layout
+
+\begin_layout Standard
+Bayes theorem (Serum)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P\left(X,Y\right)=P\left(Y\vert X\right)P\left(X\right)=P\left(X\vert Y\right)P\left(Y\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 3-2
+\end_layout
+
+\begin_layout Standard
+as
+\begin_inset Formula 
+\begin{align*}
+\mathbf{X^{T}\Sigma X,\quad no\,\,k}\\
+=\mathbf{\cancel{X^{T}\Sigma}X} & =\mathbf{X}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+But
+\begin_inset Formula 
+\[
+\mathbf{X^{T}\Sigma_{k}X}=\mathbf{X^{T}\Sigma_{k}X}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 3-3
+\end_layout
+
+\begin_layout Standard
+Decision boundary 
+\begin_inset Formula 
+\[
+\ensuremath{\delta_{k}(\boldsymbol{x})>\delta_{k^{\prime}}(\boldsymbol{x})}\nearrow\mathbf{X^{*}}\nearrow\ensuremath{\delta_{k}(\boldsymbol{x})<\delta_{k^{\prime}}(\boldsymbol{x})}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 3-5
+\end_layout
+
+\begin_layout Standard
+We allow 
+\begin_inset Formula 
+\[
+\delta_{k}(\boldsymbol{x})=\delta_{k^{\prime}}(\boldsymbol{x})\Rightarrow x^{*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+as we 
+\begin_inset Formula $LDA\rightarrow QDA$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slidee 5-2
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\beta_{0}+\beta^{T}\mathbf{x}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+ is in 
+\begin_inset Formula $dim(p-1)$
+\end_inset
+
+ even though 
+\begin_inset Formula $\mathbf{x}\in R^{p}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 5-6
+\end_layout
+
+\begin_layout Standard
+note that 
+\begin_inset Formula 
+\[
+\underset{\overbrace{\text{absolute distance}}}{y_{i}\underset{\overbrace{\text{signed distance}}}{\left(\beta_{0}+\beta^{\top}\boldsymbol{x}_{i}\right)/\|\beta\|}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 5-8
+\end_layout
+
+\begin_layout Standard
+note that either or both
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{l}
+\\
+\alpha_{i}-1=0\\
+y_{i}\left(\beta_{0}+\beta^{\top}\boldsymbol{x}_{i}\right)-1=0
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+suppose 
+\begin_inset Formula $\alpha_{i}>0$
+\end_inset
+
+ & 
+\begin_inset Formula $y_{i}\left(\beta_{0}+\beta^{\top}\boldsymbol{x}_{i}\right)-1>0$
+\end_inset
+
+ (What was the point of this?)
+\end_layout
+
+\begin_layout Subsubsection*
+slide 5-9
+\end_layout
+
+\begin_layout Standard
+Note that
+\begin_inset Formula 
+\[
+\left\Vert \beta\right\Vert ^{2}=<\beta\beta>=\beta^{T}\beta
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\left\Vert \beta\right\Vert ^{2}}{\partial\beta}=2\beta
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+we want 
+\begin_inset Formula 
+\[
+\frac{\partial LP}{\partial\beta}=0\Rightarrow\beta=\sum_{i}\alpha_{i}y_{i}x_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 5-10
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\alpha_{i}\left\{ y_{i}\left(\beta_{0}+\beta^{\top}\boldsymbol{x}_{i}\right)-1\right\} =0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for 
+\begin_inset Formula $\alpha_{i}>0$
+\end_inset
+
+ then 
+\begin_inset Formula $\left\{ y_{i}\left(\beta_{0}+\beta^{\top}\boldsymbol{x}_{i}\right)-1\right\} =0$
+\end_inset
+
+, this means that 
+\begin_inset Formula $y_{i}=±1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+because
+\begin_inset Formula 
+\[
+\beta_{0}=y_{i}-\boldsymbol{x}_{i}^{\top}\beta=\frac{1}{y_{i}}=y_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+when 
+\begin_inset Formula $\beta^{*}$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta_{0}^{*}$
+\end_inset
+
+ is found then define function
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+G(x)=\begin{cases}
+1 & \beta_{0}^{*}+\boldsymbol{x}_{i}^{\top}\beta^{*}>0\\
+-1 & \beta_{0}^{*}+\boldsymbol{x}_{i}^{\top}\beta^{*}<0
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 5-11
+\end_layout
+
+\begin_layout Standard
+Note that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underset{\overbrace{±1}}{y_{i}}\underset{\overbrace{±1}}{\left(\beta_{0}^{*}+\boldsymbol{x}_{i}^{\top}\beta^{*}\right)}=1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+then 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\left(\beta_{0}^{*}+\boldsymbol{x}_{i}^{\top}\beta^{*}\right)/\left\Vert \beta\right\Vert  & =±1/\left\Vert \beta\right\Vert \\
+ & =±M
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for 
+\begin_inset Formula $\alpha_{i}≠0$
+\end_inset
+
+ 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ lies on the margin.
+\end_layout
+
+\begin_layout Standard
+Note we do need some weights to be >0, because if we don't we could optimize
+ the objective function futher.
+\end_layout
+
+\begin_layout Standard
+Note that only nonzero weights matter in the optimization.
+\end_layout
+
+\begin_layout Subsubsection*
+slide 5-16
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sum_{i}\epsilon_{i}<C
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+then wrong classification 
+\begin_inset Formula $\epsilon_{i}≥1$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsubsection*
+slide 5-23
+\end_layout
+
+\begin_layout Standard
+note that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{i}\left(\beta_{0}^{*}+\boldsymbol{x}_{i}^{\top}\beta^{*}\right)/\left\Vert \beta\right\Vert =M\left(1-\epsilon_{i}^{*}\right)≤M
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+2 cases 
+\end_layout
+
+\begin_layout Enumerate
+< 0 wrong class
+\end_layout
+
+\begin_layout Enumerate
+0 > then 
+\begin_inset Formula $≤M$
+\end_inset
+
+ wrong side of the margin
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 5-25
+\end_layout
+
+\begin_layout Standard
+just some alinear algebra
+\end_layout
+
+\begin_layout Standard
+Special case where a.b with unit length
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+<a.b>=a^{T}b=1\rightarrow a=b
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+<a.b>=0\rightarrow a.b\text{ orthogonal}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+<a.b>=-1\rightarrow a=-b
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 5-27
+\end_layout
+
+\begin_layout Standard
+rememebr from linear meassure
+\begin_inset Formula 
+\begin{align*}
+f(\boldsymbol{x}) & =\beta_{0}^{*}+\boldsymbol{x}^{\top}\beta^{*}\\
+ & =\beta_{0}^{*}+\boldsymbol{x}^{\top}\sum_{i=1}^{n}\alpha_{i}^{*}x_{i}y_{i}\\
+ & =\beta_{0}^{*}+\sum_{i=1}^{n}\alpha_{i}^{*}\underset{=\overbrace{K\left(x,x_{i}\right)}}{\boldsymbol{x}^{\top}x_{i}}y_{i}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 5-31
+\end_layout
+
+\begin_layout Standard
+Remember smaller value is preferred for 
+\begin_inset Formula $\sum_{i=1}^{n}\epsilon_{i}$
+\end_inset
+
+ but not for it to be 
+\begin_inset Formula $=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Remember that B and C are moving in different directions.
+\end_layout
+
+\begin_layout Part*
+Trees and Random Forests
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-15
+\end_layout
+
+\begin_layout Standard
+We can see 
+\begin_inset Formula $\mathbf{1}\left(y_{i}\neq k(m)\right)$
+\end_inset
+
+ as an error rate
+\end_layout
+
+\begin_layout Standard
+Note that
+\begin_inset Formula 
+\begin{align*}
+\frac{1}{n_{m}}\sum_{i:x_{i}\in R_{m}}\mathbf{1}\left(y_{i}\neq k(m)\right) & =1-\frac{1}{n_{m}}\sum_{i:x_{i}\in R_{m}}\mathbf{1}\left(y_{i}=k(m)\right)\\
+ & =1-\hat{p}_{mk(m)}\\
+ & =1-\max_{k}\hat{p}_{mk}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-16
+\end_layout
+
+\begin_layout Standard
+For Gini index:
+\end_layout
+
+\begin_layout Standard
+Think for binary tree: 
+\begin_inset Formula 
+\[
+x_{i}\rightarrow\hat{y_{i}}=\begin{cases}
+k & w.p.\quad\hat{p_{mk}}\\
+>k & w.p.\quad1-\hat{p_{mk}}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+slide 1-17
+\end_layout
+
+\begin_layout Standard
+Remember the multinorminal distribution
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+PMF\quad\frac{n!}{n_{1,...,n_{k}!}}\prod_{k=1}^{K}\left(\phi k\right)^{nk}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+log\left(n!\right)-\sum_{k=1}^{K}log\left(nk!\right)+\frac{\prod_{k=1}^{K}NKlog\left(Pk\right)}{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula 
+\[
+\frac{\prod_{k=1}^{K}NKlog\left(Pk\right)}{n}=\prod_{k=1}^{K}pklog\left(pk\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For Gini index
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{y_{i}}=\begin{cases}
+k & w.p.\quad\hat{p_{nk}}\\
+≠k & w.p.\quad1-\hat{p_{nk}}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-7
+\end_layout
+
+\begin_layout Standard
+remember that our sample is given as 
+\begin_inset Formula 
+\[
+\left(y_{i},x_{i}\right)_{i=1}^{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-10
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{for each \ensuremath{b} }x\rightarrow R_{m}\rightarrow\arg\max_{k}\hat{p_{nk}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where we can define 
+\begin_inset Formula 
+\[
+\hat{p_{nk}}=k^{b}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+sldie 2-11
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{for each \ensuremath{b}}\quad x_{i}\begin{cases}
+\text{selected in bootstrap}\\
+\text{not selected in bootstrap} & =\text{testing error rate}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for the condistion 
+\begin_inset Formula $B/3$
+\end_inset
+
+ is because, the case where the i'th obs is OOB is given by
+\begin_inset Formula 
+\[
+\left(1-\frac{1}{n}\right)^{n}\rightarrow^{\text{as }n\rightarrow\infty}\frac{1}{e}\approx\frac{1}{3}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For random forrest
+\begin_inset Formula 
+\[
+\hat{y}=\hat{f}\left(x\right)
+\]
+
+\end_inset
+
+ In generalized RF we want to predict some parameters 
+\begin_inset Formula $\theta\left(x\right)$
+\end_inset
+
+.
+ We migght do this if we have time in causla inference
+\end_layout
+
+\begin_layout Part*
+Boosting and BART
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-3
+\end_layout
+
+\begin_layout Standard
+Think or the residuals are the leftover signal of the model.
+ If the model if perfect we dont have any reseduals.
+ In boosting we use these reseduals to refine the algoritm.
+ We want to catch the leftout residuals.
+\end_layout
+
+\begin_layout Standard
+Remember we dont bootstrap in boosting.
+ We consider a fixed set for each individual tree.
+ Also the final prediction is only the sum of the tress, while random forrest
+ we average the sum of trees?
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-9
+\end_layout
+
+\begin_layout Standard
+We update the weights by this
+\begin_inset Formula 
+\[
+\ensuremath{w_{i}^{b}=w_{i}^{b-1}\exp\left(\alpha_{b}\mathbf{1}\left(y_{i}\neq G^{b}\left(\boldsymbol{x}_{i}\right)\right)\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Correct:
+\begin_inset Formula 
+\[
+\ensuremath{w_{i}^{b}=w_{i}^{b-1}\exp\left(0\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Wrong:
+\begin_inset Formula 
+\[
+\ensuremath{w_{i}^{b}=w_{i}^{b-1}\exp\left(\alpha_{b}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Where the error rate
+\begin_inset Formula 
+\[
+\frac{1-err_{b}}{err_{b}}>1\quad\text{if }err_{b}<1/2
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+We always chack if the error rate is larger than one before we update.
+ 
+\end_layout
+
+\begin_layout Standard
+After update procedure we can not check if 
+\begin_inset Formula $\sum w_{i}^{b}≠1$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+For the second weights 
+\begin_inset Formula $\alpha_{b}$
+\end_inset
+
+ which are the wieghts for the prediction
+\end_layout
+
+\begin_layout Standard
+so when 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\alpha_{b}=log\left(\frac{1-err_{b}}{err_{b}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+when 
+\begin_inset Formula $err_{b}\downarrow$
+\end_inset
+
+ then 
+\begin_inset Formula $\alpha_{b}\uparrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-14
+\end_layout
+
+\begin_layout Standard
+Misclassified loos function
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+L\left(y,f(x)\right)=\mathbf{1}\left(yf(x)<0\right)
+\]
+
+\end_inset
+
+ This is not continous so not convinient when we minimize, so the one we
+ use in slide 14 (exponential loss funtion) is the one we use.
+ We use this because it is continous and linear transformation and for computati
+onal simplicity.
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-5
+\end_layout
+
+\begin_layout Standard
+From slides:
+\begin_inset Formula 
+\[
+\ensuremath{\begin{aligned}\left(\beta_{b},G^{b}\right) & =\arg\min_{\beta,G}\sum_{i=1}^{n}\exp\left\{ -y_{i}\left(\hat{f}^{b-1}\left(\boldsymbol{x}_{i}\right)+\beta G\left(\boldsymbol{x}_{i}\right)\right)\right\} \\
+ & =\arg\min_{\beta,G}\sum_{i=1}^{n}w_{i}^{b}\exp\left(-\beta y_{i}G\left(\boldsymbol{x}_{i}\right)\right)
+\end{aligned}
+}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that for (2), remember that 
+\end_layout
+
+\begin_layout Standard
+If correctly specified
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{i}=G\left(x_{i}\right)\Rightarrow y_{i}G\left(x_{i}\right)=1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For wrongly specified
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{i}≠G\left(x_{i}\right)\Rightarrow y_{i}G\left(x_{i}\right)=-1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore we can decompose so that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e^{-\beta}\sum_{i^{\text{correct}}}w_{i}^{b}+e^{-\beta}\sum_{i^{x}}w_{i}^{b}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+ & =e^{-\beta}\sum_{i}w_{i}^{b}-e^{-\beta}\sum_{i^{x}}w_{i}^{b}+e^{\beta}\sum_{i^{x}}w_{i}^{b}\\
+ & =e^{-\beta}\sum_{i}w_{i}^{b}+\left(e^{\beta}-e^{-\beta}\right)\sum_{i^{x}}w_{i}^{b}\\
+ & =e^{-\beta}\sum_{i}w_{i}^{b}+\left(e^{\beta}-e^{-\beta}\right)\sum_{i}w_{i}^{b}\mathbf{1}\left(y_{i}≠G\left(x_{i}\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-16
+\end_layout
+
+\begin_layout Standard
+note that 
+\begin_inset Formula $\beta>0$
+\end_inset
+
+ means that 
+\begin_inset Formula $e^{\beta}-e^{-\beta}>0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For minimizing (2) we rewrite objective function
+\begin_inset Formula 
+\[
+\ensuremath{e^{-\beta}\sum_{i=1}^{n}w_{i}^{b}+\left(e^{\beta}-e^{-\beta}\right)\sum_{i=1}^{n}w_{i}^{b}1\left(y_{i}\neq G^{b}\left(x_{i}\right)\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+FOC 
+\begin_inset Formula $\left(w.r.t.\quad\beta\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+0 & =-e^{-\beta}\sum_{i}w_{i}^{b}+e^{\beta}\sum_{i=1}^{n}w_{i}^{b}1\left(y_{i}\neq G^{b}\left(x_{i}\right)\right)+e^{-\beta}\sum_{i=1}^{n}w_{i}^{b}1\left(y_{i}\neq G^{b}\left(x_{i}\right)\right)\\
+e^{-\beta}\sum_{i}w_{i}^{b} & =e^{\beta}\sum_{i=1}^{n}w_{i}^{b}1\left(y_{i}\neq G^{b}\left(x_{i}\right)\right)+e^{-\beta}\sum_{i=1}^{n}w_{i}^{b}1\left(y_{i}\neq G^{b}\left(x_{i}\right)\right)\\
+1 & =\frac{e^{2\beta}\sum_{i=1}^{n}w_{i}^{b}1\left(y_{i}\neq G^{b}\left(x_{i}\right)\right)}{\sum_{i}w_{i}^{b}}+\frac{\sum_{i=1}^{n}w_{i}^{b}1\left(y_{i}\neq G^{b}\left(x_{i}\right)\right)}{\sum_{i}w_{i}^{b}}\\
+1 & =e^{2\beta}err_{b}+err_{b}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+as 
+\begin_inset Formula 
+\[
+\beta=\frac{log\left(\frac{1-err_{b}}{err_{b}}\right)}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-17
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+w_{i}^{b+1} & =exp\left(-y_{i}\hat{f_{b}}\left(x_{i}\right)\right)\\
+ & =w_{i}^{b}exp\left(-y_{i}\beta_{b}G^{b}\left(x_{i}\right)\right)\\
+ & =w_{i}^{b}exp\left\{ -\beta_{b}\left(2\mathbf{1}\left(y_{i}≠G^{b}(x_{i})\right)-1\right)\right\} \\
+ & =w_{i}^{b}exp\left\{ 2\beta_{b}\mathbf{1}\left(y_{i}≠G^{b}(x_{i})\right)-\beta b\right\} \\
+ & =w_{i}^{b}exp\left\{ \alpha_{b}\mathbf{1}\left(y_{i}≠G^{b}(x_{i})\right)-\beta b\right\} 
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula 
+\[
+-y_{i}G^{b}\left(x_{i}\right)=2\mathbf{1}\left(y_{i}≠G^{b}(x_{i})\right)-1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-24
+\end_layout
+
+\begin_layout Standard
+For squared loss 
+\begin_inset Formula 
+\[
+L\left(y,f\left(x\right)\right)=\left(y-f\left(x\right)\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial L}{\partial f}\vert_{f=\hat{f}^{b-1}}=-2\underset{=r_{i}^{b-1}}{\left(y_{i}-\hat{f}^{b-1}\left(x_{i}\right)\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the canstant drops out (does not matter for the optimization)
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-25
+\end_layout
+
+\begin_layout Standard
+General: we need 
+\begin_inset Formula 
+\[
+\ensuremath{\beta_{b}=\arg\min_{\beta}\sum_{i=1}^{n}L\left(y_{i},\hat{f}^{b-1}\left(\boldsymbol{x}_{i}\right)+\underset{T^{b}}{\beta h_{b}\left(\boldsymbol{x}_{i}\right)}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T^{b}=\arg\min_{T}\sum_{i}L\left(y_{i},\hat{f}^{b-1}\left(\boldsymbol{x}_{i}\right)+T\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula 
+\[
+T\left(x_{i}\right)=\sum_{j=1}^{J}\gamma_{j}\mathbf{1}\left(x_{i}\in R_{j}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-28
+\end_layout
+
+\begin_layout Standard
+For the fit e.g.
+ 
+\begin_inset Formula $\hat{f}_{m}^{b-1}\rightarrow\hat{f_{m}^{b}}$
+\end_inset
+
+ we don't really use the data.
+ We try a random pertubation and use the data 
+\begin_inset Formula $\left\{ x_{i},r_{im}^{b-1}\right\} $
+\end_inset
+
+ to verify whether there is a improvement with the new tree.
+\end_layout
+
+\begin_layout Part*
+Non linear
+\end_layout
+
+\begin_layout Subsubsection*
+slide 3-6
+\end_layout
+
+\begin_layout Standard
+note:
+\end_layout
+
+\begin_layout Enumerate
+for 
+\begin_inset Formula $x<\xi_{1}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+d_{k}\left(x\right)=0
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+N_{k+2}\left(X\right)=0\Rightarrow f\left(X\right)=\beta_{1}+\beta_{2}x
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+for 
+\begin_inset Formula $x>\xi_{k}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{N_{k+2}\left(X\right)}{\text{linear}}
+\]
+
+\end_inset
+
+2nd and 3rd derivatives are zero
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow f\left(X\right)$
+\end_inset
+
+ linear 
+\end_layout
+
+\begin_layout Subsubsection*
+slide 3-8
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial RSS\left(\theta.\lambda\right)}{\partial\theta}=-2N^{T}\left(y-N\theta\right)+2\lambda\Omega_{N}\theta=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\theta}=\ensuremath{\left(\boldsymbol{N}^{\top}\boldsymbol{N}+\lambda\boldsymbol{\Omega}_{N}\right)^{-1}\boldsymbol{N}^{\top}\boldsymbol{y}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{f}=N\hat{\theta}
+\]
+
+\end_inset
+
+ Remember from traditional regression case (OLS)
+\begin_inset Formula 
+\[
+\hat{y}=HY
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $H$
+\end_inset
+
+ is a projection matrix.
+\end_layout
+
+\begin_layout Standard
+Note that: 
+\begin_inset Formula 
+\[
+H^{2}=H
+\]
+
+\end_inset
+
+ then 
+\begin_inset Formula 
+\[
+tr\left(H\right)=rank\left(H\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Remember that trace explains the degrees of freedom.
+\end_layout
+
+\begin_layout Part*
+Double Machine Learning
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-1
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $x_{j}$
+\end_inset
+
+ doesn't predict 
+\begin_inset Formula $y$
+\end_inset
+
+ well
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $x_{j}$
+\end_inset
+
+ predicts 
+\begin_inset Formula $y$
+\end_inset
+
+ well
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $x_{k}$
+\end_inset
+
+ slighty better 
+\begin_inset Formula 
+\[
+x_{j}\&x_{k}\quad correlated
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Slide 2-6
+\end_layout
+
+\begin_layout Standard
+Sometimes the algoritm also goes under the name partial out.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Y$
+\end_inset
+
+ on 
+\begin_inset Formula $D$
+\end_inset
+
+ and 
+\begin_inset Formula $X$
+\end_inset
+
+ 
+\begin_inset Formula $\rightarrow\hat{g}\left(x\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $D$
+\end_inset
+
+ on 
+\begin_inset Formula $X$
+\end_inset
+
+ 
+\begin_inset Formula $\rightarrow\hat{E\left[D\vert X\right]}\rightarrow\hat{V}=D-\hat{E\left[D\vert X\right]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Regress 
+\begin_inset Formula $Y-\hat{g\left(x\right)}$
+\end_inset
+
+ on 
+\begin_inset Formula $D$
+\end_inset
+
+ using 
+\begin_inset Formula $\hat{V}$
+\end_inset
+
+ as IV
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-8
+\end_layout
+
+\begin_layout Standard
+Verify that (1) does not work
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\partial_{\eta}\ensuremath{\mathrm{E}\left\{ \psi\left(\boldsymbol{W};\theta_{0},\eta_{0}\right)\right\} }\vert_{\eta=\eta_{0}}=0
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+(1)\partial_{\eta}\ensuremath{\mathrm{E}\left\{ \ensuremath{\left(Y-D\theta_{0}-g_{0}(\boldsymbol{X})\right)D}\right\} }\vert_{\eta=\eta_{0}}=-E\left[D\right]≠0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+(2)\partial_{\eta}\ensuremath{\mathrm{E}\left\{ \ensuremath{\left(\left(Y-\mathrm{E}(Y\mid\boldsymbol{X})-(D-\mathrm{E}(D\mid\boldsymbol{X}))\theta_{0}\right)(D-\mathrm{E}(D\mid\boldsymbol{X}))\right.}\right\} }\vert_{\eta=\eta_{0}}\\
+\partial_{\eta^{1}}\ensuremath{\mathrm{E}\left\{ \ensuremath{\left(\left(Y-\eta^{1}-(D-\eta^{2})\theta_{0}\right)(D-\eta^{2})\right.}\right\} }\vert_{\eta=\eta_{0}} & =-E\left[D-\mathrm{E}(D\mid\boldsymbol{X})\right]=0\\
+(2)\partial_{\eta^{2}}\ensuremath{\ensuremath{\mathrm{E}\left\{ \ensuremath{\left(\left(Y-\eta^{1}-(D-\eta^{2})\theta_{0}\right)(D-\eta^{2})\right.}\right\} }\vert_{\eta=\eta_{0}}} & =E\left[\theta_{0}\left(D-\eta^{2}\right)-\left(Y-\eta^{1}-\left(D-\eta^{2}\right)\theta_{0}\right)\right]\\
+ & =E\left[\theta_{0}\left(D-\eta^{2}\right)-\left(Y-\eta^{1}-\left(D-\eta^{2}\right)\theta_{0}\right)\right]\\
+ & =E\left[\theta_{0}\left(D-\mathrm{E}(D\mid\boldsymbol{X})\right)-\left(Y-\mathrm{E}(Y\mid\boldsymbol{X})-\left(D-\mathrm{E}(D\mid\boldsymbol{X})\right)\theta_{0}\right)\right]\\
+ & =E\left[Y-E\left[Y\vert X\right]\right]=0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 3-2
+\end_layout
+
+\begin_layout Standard
+Why this is a special case of Double ML
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underset{=u_{i}}{\underbrace{Y_{i}=\beta^{1T}X_{i}^{i}}}+\underset{=\theta_{i}v_{i}}{\underbrace{\theta_{o}D_{i}+\beta_{2}^{T}X_{i}^{2}+\epsilon_{i}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 3-4
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E\left[\underset{\eta}{\underbrace{E\left[D_{i}\vert Z_{i}\right]}}\left(Y_{i}-\theta_{0}D_{i}\right)\right]=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where
+\begin_inset Formula 
+\[
+E\left(\epsilon_{i}\right)=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+Causal Trees for Treatment Effects
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-2
+\end_layout
+
+\begin_layout Standard
+connecting 8.1 and 8.2 
+\end_layout
+
+\begin_layout Standard
+From 8.1
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y_{i}\left(1\right)=g\left(x_{i}\right)+\theta_{0}+\epsilon_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y_{i}\left(0\right)=g\left(x_{i}\right)+\epsilon_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E\left[Y_{i}\left(1\right)-Y_{i}\left(0\right)\vert X_{i}\right]=\theta_{0}
+\]
+
+\end_inset
+
+ Remember that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E\left[\epsilon_{i}^{2}\vert X_{i}\right]\begin{cases}
+\sigma^{2} & \text{Homoscedastic}\\
+\sigma^{2}\left(X_{i}\right) & \text{Heteroscedastic }
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-5 
+\end_layout
+
+\begin_layout Standard
+Connection between conventional CART (apative) and Honest causal tress.
+ Billede taget 22nov kl.
+ 14.26
+\end_layout
+
+\begin_layout Part*
+Principal Component Analysis
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-6
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+S\in\mathbb{R}^{s\times s}
+\]
+
+\end_inset
+
+ so if 
+\begin_inset Formula $h≤p$
+\end_inset
+
+ we have low rank 
+\begin_inset Formula $\text{rank}\left(S\right)=n-1$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+if 
+\begin_inset Formula $n>p$
+\end_inset
+
+ we have 
+\begin_inset Formula $\text{rank}\left(s\right)=p$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+We have that 
+\begin_inset Formula 
+\[
+M=\text{rank}\left(S\right)=m^{T}n\left(p,n-1\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+sldie 1-7
+\end_layout
+
+\begin_layout Standard
+Here:
+\begin_inset Formula 
+\begin{align*}
+\phi_{km} & =\frac{cov\left(x_{k},z_{m}\right)}{var\left(x_{k}\right)}\\
+ & =\frac{r\sqrt{var\left(x_{k}\right)}\sqrt{var\left(z_{m}\right)}}{var\left(x_{k}\right)}\\
+ & =\frac{r\sqrt{S_{kk}}\sqrt{d_{m}}}{\sqrt{S_{kk}}}=r\sqrt{dm}/\sqrt{S_{kk}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 1-8
+\end_layout
+
+\begin_layout Standard
+For the derivation of the identity 
+\begin_inset Formula $Z_{M}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+z_{im}=\sum_{j=1}^{p}\phi_{jm}x_{ij}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x_{ij}=\sum_{m=1}^{M}\phi_{jm}z_{im}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore 
+\begin_inset Formula 
+\[
+Z_{n\times m}=\underset{n\times p}{X}\underset{p\times m}{\Phi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula 
+\[
+\Phi^{T}\Phi=I_{M}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+X=Z\Phi^{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Which proves the relation 
+\begin_inset Formula $z$
+\end_inset
+
+ and 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ As Chen said, not very hard.
+ Notice the Eigenvalue and Eigenvectors properties between then.
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-5
+\end_layout
+
+\begin_layout Standard
+for second component
+\begin_inset Formula 
+\[
+Z_{2}=\sum_{j=1}^{P}\phi_{j2}r_{j}^{\left[1\right]}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where the residuals from the first component.
+ We find this by regressing 
+\begin_inset Formula $Y$
+\end_inset
+
+ on 
+\begin_inset Formula $Z_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So we 
+\end_layout
+
+\begin_layout Standard
+We obtain 
+\begin_inset Formula $\phi_{j2}$
+\end_inset
+
+ by regressing 
+\begin_inset Formula $Y$
+\end_inset
+
+ on 
+\begin_inset Formula $r_{j}^{\left[1\right]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so we regress 
+\begin_inset Formula $X_{j}$
+\end_inset
+
+ on 
+\begin_inset Formula $z_{1}$
+\end_inset
+
+ 
+\begin_inset Formula $\rightarrow r_{j}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Part*
+Association Rules
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-1
+\end_layout
+
+\begin_layout Standard
+For case 1:
+\begin_inset Formula 
+\[
+X_{j}\in s_{j}=\left\{ v_{oj}\right\} \Longleftrightarrow X_{j}=v_{0j}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For case 2:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+X_{j}\in s_{j}=S_{j}\quad w.p.1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-13
+\end_layout
+
+\begin_layout Standard
+Another example
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P\Rightarrow Q\quad\neg Q\Rightarrow\neg P
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-20
+\end_layout
+
+\begin_layout Standard
+Proof:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\sigma\left(B\right)}{\sigma\left(A\right)}≥\frac{\sigma\left(B\right)}{\sigma\left(\tilde{A}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+because 
+\begin_inset Formula 
+\[
+\tilde{A}\in A\Rightarrow\sigma\left(\tilde{A}\right)≥\sigma\left(A\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 2-22
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{P\left(B\vert A\right)}{P\left(B\right)}>1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+means that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P\left(B\vert A\right)>P\left(B\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With in turns confirms the assosiation rule
+\begin_inset Formula 
+\[
+A\Rightarrow B
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Slide 3-1
+\end_layout
+
+\begin_layout Standard
+This we use when 
+\begin_inset Formula $s_{j}≤S_{j}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Remember that 
+\begin_inset Formula 
+\[
+\left\{ \boldsymbol{X}_{i}\right\} _{i=1}^{n}\sim g\left(x\right)
+\]
+
+\end_inset
+
+ and
+\begin_inset Formula 
+\[
+\left\{ \boldsymbol{X}_{i}\right\} _{i=n+1}^{n_{o}}\sim g_{o}\left(x\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So we code
+\begin_inset Formula 
+\[
+Y=\begin{cases}
+1 & \left\{ \boldsymbol{X}_{i}\right\} \sim g\left(x\right)\\
+0 & \left\{ \boldsymbol{X}_{i}\right\} \sim g_{0}\left(x\right)
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+slide 3.3
+\end_layout
+
+\begin_layout Standard
+Remember that if 
+\begin_inset Formula $s_{j}=S_{j}$
+\end_inset
+
+ then 
+\begin_inset Formula 
+\[
+P\left(X_{j}\in S_{j}\right)=1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+Cluster Analysis
+\end_layout
+
+\begin_layout Subsubsection*
+slide
+\end_layout
+
+\begin_layout Part*
+Overview
+\end_layout
+
+\end_body
+\end_document
